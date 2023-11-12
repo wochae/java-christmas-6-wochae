@@ -8,7 +8,7 @@
 - View (inputView, outputView)
 - Controller (X-masController, BookingController, MenuController)
 - DTO()
-- constant()
+- constant(Message)
 ---
 
 ### &nbsp;VIEW
@@ -16,12 +16,12 @@
 - 사용자와 직접적으로 상호작용을 하는 계층
 - [x] 콘솔로부터 사용자의 입력을 받는 InputView
 - [x] 콘솔에 사용자에게 메시지를 출력하는 OutputView
-- [ ] 입력 값의 유효 처리가 완료된 뒤 Controller에게 전달
+- [x] 입력 값의 유효 처리가 완료된 뒤 Controller에게 전달
 - [ ] 입력 값이 유효하지 않은 경우 에러 메시지를 출력
 
 ### &nbsp;&nbsp;InputView 기능 명세서
 
-- [ ] 예약 날짜를 입력받는다.
+- [x] 예약 날짜를 입력받는다.
 
 ### &nbsp;&nbsp;OutputView 기능 명세서
 #### &nbsp;&nbsp;예약 날짜 입력

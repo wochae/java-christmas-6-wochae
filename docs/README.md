@@ -8,7 +8,7 @@
 - View (inputView, outputView)
 - Controller (X-masController, BookingController, MenuController)
 - DTO()
-- constant(Message)
+- constant(Message, Constant)
 ---
 
 ### &nbsp;VIEW
@@ -30,10 +30,11 @@
 
 
 
-
-
-### 
-### &nbsp;&nbsp;요일 유효성 검사
+### &nbsp;&nbsp;유효성 검사 리스트
 
 - [x] 예약 날짜가 숫자가 아닌 값이 포함된 경우
 - [x] 예약 날짜가 1~31 사이의 값이 아닌 경우
+
+
+- [ ] 주문과 수량 배열 안에 요소가 공백이 포함된 경우
+- [ ] 주문과 수량 배열 안에 1번째 요소가 숫자가 아닌 값이 포함된 경우

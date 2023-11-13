@@ -1,6 +1,9 @@
 package christmas.service;
 
+import static christmas.exception.ErrorMessage.AMOUNT_OUT_OF_RANGE;
+import static christmas.exception.ErrorMessage.REQUEST_INVALID_MENU;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.HashMap;
@@ -53,4 +56,27 @@ class ParserTest {
         assertThat(menuAndAmountMap).isEqualTo(expected);
     }
 
+    @Test
+    public void invalid_amount_0() {
+        assertThatThrownBy(() ->
+                Parser.splitMenuAndAmount("초코케이크-0"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(REQUEST_INVALID_MENU.getMessage());
+    }
+
+    @Test
+    public void invalid_amount_over() {
+        assertThatThrownBy(() ->
+                Parser.splitMenuAndAmount("초코케이크-21"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(AMOUNT_OUT_OF_RANGE.getMessage());
+    }
+
+    @Test
+    public void over_menu_amount() {
+        assertThatThrownBy(() ->
+                Parser.splitMenuAndAmount("초코케이크-21"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(AMOUNT_OUT_OF_RANGE.getMessage());
+    }
 }

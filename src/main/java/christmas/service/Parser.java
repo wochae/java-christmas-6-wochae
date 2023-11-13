@@ -1,12 +1,14 @@
 package christmas.service;
 
 import static christmas.domain.booking.constants.Constant.AMOUNT_INDEX;
+import static christmas.domain.booking.constants.Constant.AMOUNT_MAX;
 import static christmas.domain.booking.constants.Constant.FIRST_DAY;
 import static christmas.domain.booking.constants.Constant.LAST_DAY;
 import static christmas.domain.booking.constants.Constant.MENU_AMOUNT_DELIMITER;
 import static christmas.domain.booking.constants.Constant.MENU_INDEX;
 import static christmas.domain.booking.constants.Constant.MENU_TYPE_DELIMITER;
 import static christmas.domain.booking.constants.Constant.SEPARATE_TWO;
+import static christmas.exception.ErrorMessage.AMOUNT_OUT_OF_RANGE;
 import static christmas.exception.ErrorMessage.DATE_OUT_OF_RANGE;
 import static christmas.exception.ErrorMessage.REQUEST_INVALID_DATE;
 import static christmas.exception.ErrorMessage.REQUEST_INVALID_MENU;
@@ -45,19 +47,30 @@ public class Parser {
                     .forEach(entry -> processMenuEntry(entry, menuAndAmountMap));
             validateEmpty(menuAndAmountMap);
         } catch (PlannerException exception) {
-            throw PlannerException.from(REQUEST_INVALID_MENU);
-        }
-        if (menuAndAmountMap.isEmpty()) {
-            throw PlannerException.from(REQUEST_INVALID_MENU);
+            throw PlannerException.of(REQUEST_INVALID_MENU, exception);
         }
         return menuAndAmountMap;
     }
 
     private static void processMenuEntry(String entry, Map<String, Integer> menuAndAmountMap) {
         String[] parts = entry.split(MENU_AMOUNT_DELIMITER);
-        if (parts.length == SEPARATE_TWO) {
-            menuAndAmountMap.put(parts[MENU_INDEX].trim(), Integer.parseInt(parts[AMOUNT_INDEX].trim()));
+        Integer amount = 0;
+        try {
+            amount = Integer.parseInt(parts[AMOUNT_INDEX].trim());
+        } catch (NumberFormatException exception) {
+            throw PlannerException.of(REQUEST_INVALID_MENU, exception);
         }
+        if (parts.length == SEPARATE_TWO) {
+            validateAmount(amount);
+            menuAndAmountMap.put(parts[MENU_INDEX].trim(), amount);
+        }
+    }
+
+    private static void validateAmount(Integer amount) {
+        if (AMOUNT_INDEX <= amount && amount <= AMOUNT_MAX) {
+            return;
+        }
+        throw PlannerException.from(AMOUNT_OUT_OF_RANGE);
     }
 
     private static void validateEmpty(Map<String, Integer> menuAndAmountMap) {

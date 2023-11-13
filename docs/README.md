@@ -4,7 +4,7 @@
 
 ## &nbsp;&nbsp;구조
 
-- Model (Parser, Booking)
+- Model (Parser, Booking, MenuSearch)
 - View (inputView, outputView)
 - Controller (X-masController, ReservationController, BookingController, MenuController)
 - DTO()
@@ -56,3 +56,5 @@
 
 - [x] 주문과 수량 배열 안에 요소가 공백이 포함된 경우
 - [x] 주문과 수량 배열 안에 1번째 요소가 숫자가 아닌 값이 포함된 경우
+
+- [ ] 주문과 수량 배열 안에 0번째 요소가 지정된 음식 타입이 아닌 경우

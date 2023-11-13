@@ -42,18 +42,24 @@ public class Parser {
     public static Map<String, Integer> splitMenuAndAmount(String input) {
         Map<String, Integer> menuAndAmountMap = new HashMap<>();
         try {
-            validateWhiteSpace(input);
             validateOmittedArgument(input);
             validateDuplicateMenu(input);
             validateOnlyBeverage(input);
             String[] menuAndAmount = input.split(MENU_TYPE_DELIMITER);
-            Arrays.stream(menuAndAmount)
-                    .forEach(entry -> processMenuEntry(entry, menuAndAmountMap));
+            Arrays.stream(menuAndAmount).forEach(entry -> processMenuEntry(entry, menuAndAmountMap));
             validateEmpty(menuAndAmountMap);
+            validateAmount(sumAmount(menuAndAmountMap));
         } catch (PlannerException exception) {
             throw PlannerException.of(REQUEST_INVALID_MENU, exception);
         }
         return menuAndAmountMap;
+    }
+
+    private static int sumAmount(Map<String, Integer> menuAndAmountMap) {
+        return menuAndAmountMap.values()
+                .stream()
+                .mapToInt(Integer::intValue)
+                .sum();
     }
 
     private static void validateOnlyBeverage(String input) {
@@ -68,6 +74,7 @@ public class Parser {
             throw PlannerException.from(REQUEST_INVALID_MENU);
         }
     }
+
     private static void validateDuplicateMenu(String input) {
         String[] menuAndAmount = input.split(MENU_TYPE_DELIMITER);
         String[] menus = Arrays.stream(menuAndAmount)
@@ -87,12 +94,14 @@ public class Parser {
             throw PlannerException.of(REQUEST_INVALID_MENU, exception);
         }
         if (parts.length == SEPARATE_TWO) {
-            validateAmount(amount);
+            int eachAmount = Integer.parseInt(parts[AMOUNT_INDEX].trim());
+            validateAmount(eachAmount);
             menuAndAmountMap.put(parts[MENU_INDEX].trim(), amount);
         }
     }
 
-    private static void validateAmount(Integer amount) {
+
+    private static void validateAmount(int amount) {
         if (AMOUNT_INDEX <= amount && amount <= AMOUNT_MAX) {
             return;
         }
@@ -106,6 +115,7 @@ public class Parser {
     }
 
     private static void validateOmittedArgument(String input) {
+        validateWhiteSpace(input);
         if (input.endsWith(MENU_AMOUNT_DELIMITER) || input.endsWith(MENU_TYPE_DELIMITER)) {
             throw PlannerException.from(REQUEST_INVALID_MENU);
         }

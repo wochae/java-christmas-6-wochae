@@ -1,7 +1,7 @@
 package christmas.exception;
 
 public enum ErrorMessage {
-    REQUEST_NOT_INTEGER("정수형으로 입력되어야 합니다."),
+    REQUEST_INVALID_DATE("유효하지 않은 날짜입니다. 다시 입력해 주세요."),
     DATE_OUT_OF_RANGE("12월 중 날짜를 입력해 주세요!");
     private static final String ERROR_PREFIX = "[ERROR] ";
     private final String message;

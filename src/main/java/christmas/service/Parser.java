@@ -1,7 +1,7 @@
 package christmas.service;
 
 import static christmas.exception.ErrorMessage.DATE_OUT_OF_RANGE;
-import static christmas.exception.ErrorMessage.REQUEST_NOT_INTEGER;
+import static christmas.exception.ErrorMessage.REQUEST_INVALID_DATE;
 
 import christmas.exception.DateException;
 
@@ -14,7 +14,7 @@ public class Parser {
             validateOutOfRange(input);
             return Integer.parseInt(input);
         } catch (NumberFormatException exception) {
-            throw DateException.of(REQUEST_NOT_INTEGER, exception);
+            throw DateException.of(REQUEST_INVALID_DATE, exception);
         }
     }
 

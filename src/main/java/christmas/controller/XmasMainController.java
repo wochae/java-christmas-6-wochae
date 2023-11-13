@@ -1,8 +1,11 @@
 package christmas.controller;
 
+import christmas.domain.booking.Booking;
+
 public class XmasMainController {
     public static void start() {
-        int reservation = BookingController.requestBooking();
-        MenuController.printReservationMenu(reservation);
+        ReservationController reservationController = new ReservationController();
+        Booking booking = reservationController.getBooking();
+
     }
 }

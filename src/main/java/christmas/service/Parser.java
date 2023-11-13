@@ -42,6 +42,8 @@ public class Parser {
         try {
             validateWhiteSpace(input);
             validateOmittedArgument(input);
+            validateDuplicateMenu(input);
+            validateOnlyBeverage(input);
             String[] menuAndAmount = input.split(MENU_TYPE_DELIMITER);
             Arrays.stream(menuAndAmount)
                     .forEach(entry -> processMenuEntry(entry, menuAndAmountMap));
@@ -50,6 +52,28 @@ public class Parser {
             throw PlannerException.of(REQUEST_INVALID_MENU, exception);
         }
         return menuAndAmountMap;
+    }
+
+    private static void validateOnlyBeverage(String input) {
+        String[] menuAndAmount = input.split(MENU_TYPE_DELIMITER);
+        boolean allMatch = Arrays.stream(menuAndAmount)
+                .map(entry -> entry.split(MENU_AMOUNT_DELIMITER)[MENU_INDEX])
+                .allMatch(menu -> MenuSearch.findMenuItem(menu)
+                        .map(menuItem -> menuItem.type() == MenuType.BEVERAGE)
+                        .orElse(false)
+                );
+        if (allMatch) {
+            throw PlannerException.from(REQUEST_INVALID_MENU);
+        }
+    }
+    private static void validateDuplicateMenu(String input) {
+        String[] menuAndAmount = input.split(MENU_TYPE_DELIMITER);
+        String[] menus = Arrays.stream(menuAndAmount)
+                .map(entry -> entry.split(MENU_AMOUNT_DELIMITER)[MENU_INDEX])
+                .toArray(String[]::new);
+        if (Arrays.stream(menus).distinct().count() != menus.length) {
+            throw PlannerException.from(REQUEST_INVALID_MENU);
+        }
     }
 
     private static void processMenuEntry(String entry, Map<String, Integer> menuAndAmountMap) {

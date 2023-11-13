@@ -69,7 +69,7 @@ class ParserTest {
         assertThatThrownBy(() ->
                 Parser.splitMenuAndAmount("초코케이크-21"))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(AMOUNT_OUT_OF_RANGE.getMessage());
+                .hasMessageContaining(REQUEST_INVALID_MENU.getMessage());
     }
 
     @Test
@@ -77,6 +77,14 @@ class ParserTest {
         assertThatThrownBy(() ->
                 Parser.splitMenuAndAmount("초코케이크-21"))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(AMOUNT_OUT_OF_RANGE.getMessage());
+                .hasMessageContaining(REQUEST_INVALID_MENU.getMessage());
+    }
+
+    @Test
+    public void duplicate_menu() {
+        assertThatThrownBy(() ->
+                Parser.splitMenuAndAmount("초코케이크-2,초코케이크-1"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(REQUEST_INVALID_MENU.getMessage());
     }
 }

@@ -87,4 +87,12 @@ class ParserTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(REQUEST_INVALID_MENU.getMessage());
     }
+
+    @Test
+    public void only_beverage() {
+        assertThatThrownBy(() ->
+                Parser.splitMenuAndAmount("샴페인-2,제로콜라-1"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(REQUEST_INVALID_MENU.getMessage());
+    }
 }

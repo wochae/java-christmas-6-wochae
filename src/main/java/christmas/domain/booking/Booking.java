@@ -1,10 +1,8 @@
 package christmas.domain.booking;
 
-import static christmas.domain.booking.constants.Constant.AMOUNT_MAX;
-import static christmas.exception.ErrorMessage.AMOUNT_OUT_OF_RANGE;
+import static christmas.exception.ErrorMessage.REQUEST_INVALID_MENU;
 
 import christmas.exception.PlannerException;
-import java.util.List;
 import java.util.Map;
 
 public class Booking {
@@ -13,7 +11,13 @@ public class Booking {
     private final Map<String, Integer> menuAndAmountMap;
 
     public Booking(int reservationDay, Map<String, Integer> menuAndAmountMap) {
-        validationMenu(menuAndAmountMap);
+
+        try {
+            validationMenu(menuAndAmountMap);
+        } catch (IllegalArgumentException exception) {
+            PlannerException.of(REQUEST_INVALID_MENU, exception);
+        }
+
         this.reservationDay = reservationDay;
         this.menuAndAmountMap = menuAndAmountMap;
 
@@ -24,17 +28,10 @@ public class Booking {
     }
 
     private void validationMenu(Map<String, Integer> menuAndAmountMap) {
-        validateNumbersRange(List.copyOf(menuAndAmountMap.values()));
+        isExistMenu(menuAndAmountMap);
     }
 
-    private void validateNumbersRange(List<Integer> numbers) {
-        if (eachMaxAmount(numbers)) {
-            throw PlannerException.from(AMOUNT_OUT_OF_RANGE);
-        }
-    }
+    private void isExistMenu(Map<String, Integer> menuAndAmountMap) {
 
-    private boolean eachMaxAmount(List<Integer> numbers) {
-        return numbers.stream()
-                .anyMatch(number -> number > AMOUNT_MAX);
     }
 }

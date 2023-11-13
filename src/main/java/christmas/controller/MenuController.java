@@ -2,6 +2,8 @@ package christmas.controller;
 
 import static christmas.domain.booking.constants.Message.REQUEST_MENU_AND_AMOUNT;
 
+import christmas.domain.booking.dto.MenuItem;
+import christmas.exception.PlannerException;
 import christmas.service.Parser;
 import christmas.view.input.InputView;
 import christmas.view.output.OutputView;
@@ -11,16 +13,16 @@ public class MenuController {
     public MenuController() {
     }
 
-    public static Map<String, Integer> requestMenu() {
+    public static Map<MenuItem, Integer> requestMenu() {
         OutputView.print(REQUEST_MENU_AND_AMOUNT);
         return readMenuInput();
     }
 
-    private static Map<String, Integer> readMenuInput() {
+    private static Map<MenuItem, Integer> readMenuInput() {
         try {
             final String input = InputView.readLine();
             return Parser.splitMenuAndAmount(input);
-        } catch (IllegalArgumentException exception) {
+        } catch (PlannerException exception) {
             OutputView.println(exception.getMessage());
             return readMenuInput();
         }

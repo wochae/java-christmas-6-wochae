@@ -14,6 +14,7 @@ import static christmas.exception.ErrorMessage.DATE_OUT_OF_RANGE;
 import static christmas.exception.ErrorMessage.REQUEST_INVALID_DATE;
 import static christmas.exception.ErrorMessage.REQUEST_INVALID_MENU;
 
+import christmas.domain.booking.MenuSearch;
 import christmas.domain.booking.dto.MenuItem;
 import christmas.domain.booking.dto.MenuType;
 import christmas.exception.PlannerException;
@@ -41,8 +42,8 @@ public class Parser {
         throw PlannerException.from(DATE_OUT_OF_RANGE);
     }
 
-    public static Map<Optional<MenuItem>, Integer> splitMenuAndAmount(String input) {
-        Map<Optional<MenuItem>, Integer> menuAndAmountMap = new HashMap<>();
+    public static Map<MenuItem, Integer> splitMenuAndAmount(String input) {
+        Map<MenuItem, Integer> menuAndAmountMap = new HashMap<>();
         try {
             validateOmittedArgument(input);
             validateDuplicateMenu(input);
@@ -57,7 +58,26 @@ public class Parser {
         return menuAndAmountMap;
     }
 
-    private static int sumAmount(Map<Optional<MenuItem>, Integer> menuAndAmountMap) {
+
+    private static void processMenuEntry(String entry, Map<MenuItem, Integer> menuAndAmountMap) {
+        String[] parts = entry.split(MENU_AMOUNT_DELIMITER);
+        Integer amount = 0;
+        try {
+            amount = Integer.parseInt(parts[AMOUNT_INDEX].trim());
+        } catch (NumberFormatException exception) {
+            throw PlannerException.of(REQUEST_INVALID_MENU, exception);
+        }
+        if (parts.length == SEPARATE_TWO) {
+            int eachAmount = Integer.parseInt(parts[AMOUNT_INDEX].trim());
+            validateAmount(eachAmount);
+            String menu = parts[MENU_INDEX].trim();
+            Optional<MenuItem> item = MenuSearch.findMenuItem(menu);
+            Integer finalAmount = amount;
+            item.ifPresent(menuItem -> menuAndAmountMap.put(menuItem, finalAmount));
+        }
+    }
+
+    private static int sumAmount(Map<MenuItem, Integer> menuAndAmountMap) {
         return menuAndAmountMap.values()
                 .stream()
                 .mapToInt(Integer::intValue)
@@ -112,23 +132,6 @@ public class Parser {
         }
     }
 
-    private static void processMenuEntry(String entry, Map<Optional<MenuItem>, Integer> menuAndAmountMap) {
-        String[] parts = entry.split(MENU_AMOUNT_DELIMITER);
-        Integer amount = 0;
-        try {
-            amount = Integer.parseInt(parts[AMOUNT_INDEX].trim());
-        } catch (NumberFormatException exception) {
-            throw PlannerException.of(REQUEST_INVALID_MENU, exception);
-        }
-        if (parts.length == SEPARATE_TWO) {
-            int eachAmount = Integer.parseInt(parts[AMOUNT_INDEX].trim());
-            validateAmount(eachAmount);
-            String menu = parts[MENU_INDEX].trim();
-            Optional<MenuItem> item = findMenuItem(menu);
-            menuAndAmountMap.put(item, amount);
-        }
-    }
-
 
     private static void validateAmount(int amount) {
         if (AMOUNT_INDEX <= amount && amount <= AMOUNT_MAX) {
@@ -137,7 +140,7 @@ public class Parser {
         throw PlannerException.from(AMOUNT_OUT_OF_RANGE);
     }
 
-    private static void validateEmpty(Map<Optional<MenuItem>, Integer> menuAndAmountMap) {
+    private static void validateEmpty(Map<MenuItem, Integer> menuAndAmountMap) {
         if (menuAndAmountMap.isEmpty()) {
             throw PlannerException.from(REQUEST_INVALID_MENU);
         }

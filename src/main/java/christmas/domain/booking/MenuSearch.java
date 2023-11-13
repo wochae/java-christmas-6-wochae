@@ -10,10 +10,7 @@ public class MenuSearch {
         Optional<MenuItem> foundMenuItem = menuItems.stream()
                 .filter(menuItem -> isMenuMatch(userInput, menuItem))
                 .findFirst();
-        if (foundMenuItem.isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(foundMenuItem.get());
+        return foundMenuItem;
     }
 
     private static boolean isMenuMatch(String userInput, MenuItem menuItem) {

@@ -7,7 +7,7 @@
 - Model (Parser, Booking, MenuSearch)
 - View (inputView, outputView)
 - Controller (X-masController, ReservationController, BookingController, MenuController)
-- DTO()
+- DTO(MenuItem, MenuType)
 - constant(Message, Constant)
 ---
 

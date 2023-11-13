@@ -4,13 +4,32 @@
 
 ## &nbsp;&nbsp;구조
 
-- Model (Parser)
+- Model (Parser, Booking)
 - View (inputView, outputView)
-- Controller (X-masController, BookingController, MenuController)
+- Controller (X-masController, ReservationController, BookingController, MenuController)
 - DTO()
 - constant(Message, Constant)
 ---
 
+## &nbsp;계층
+
+- X-masController
+    - ReservationController
+        - BookingController
+          - inputView
+           - outputView
+        - MenuController
+          - inputView
+          - outputView
+    - domain
+        - service
+          - Parser
+        - Booking
+        - Menu
+        - Message
+    - exception
+      - PlannerException, ErrorMessage
+      - 
 ### &nbsp;VIEW
 
 - 사용자와 직접적으로 상호작용을 하는 계층

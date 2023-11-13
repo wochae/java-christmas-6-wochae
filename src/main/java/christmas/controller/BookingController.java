@@ -19,8 +19,8 @@ public class BookingController {
 
     private static int readNumberInput() {
         try {
-            final String userInput = InputView.readLine();
-            return Parser.parseInt(userInput);
+            final String input = InputView.readLine();
+            return Parser.parseInt(input);
         } catch (IllegalArgumentException exception) {
             OutputView.println(exception.getMessage());
             return readNumberInput();

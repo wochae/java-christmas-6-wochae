@@ -1,5 +1,6 @@
 package christmas.service;
 
+import static christmas.domain.booking.MenuSearch.findMenuItem;
 import static christmas.domain.booking.constants.Constant.AMOUNT_INDEX;
 import static christmas.domain.booking.constants.Constant.AMOUNT_MAX;
 import static christmas.domain.booking.constants.Constant.FIRST_DAY;
@@ -13,12 +14,13 @@ import static christmas.exception.ErrorMessage.DATE_OUT_OF_RANGE;
 import static christmas.exception.ErrorMessage.REQUEST_INVALID_DATE;
 import static christmas.exception.ErrorMessage.REQUEST_INVALID_MENU;
 
-import christmas.domain.booking.MenuSearch;
+import christmas.domain.booking.dto.MenuItem;
 import christmas.domain.booking.dto.MenuType;
 import christmas.exception.PlannerException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class Parser {
 
@@ -39,8 +41,8 @@ public class Parser {
         throw PlannerException.from(DATE_OUT_OF_RANGE);
     }
 
-    public static Map<String, Integer> splitMenuAndAmount(String input) {
-        Map<String, Integer> menuAndAmountMap = new HashMap<>();
+    public static Map<Optional<MenuItem>, Integer> splitMenuAndAmount(String input) {
+        Map<Optional<MenuItem>, Integer> menuAndAmountMap = new HashMap<>();
         try {
             validateOmittedArgument(input);
             validateDuplicateMenu(input);
@@ -55,7 +57,7 @@ public class Parser {
         return menuAndAmountMap;
     }
 
-    private static int sumAmount(Map<String, Integer> menuAndAmountMap) {
+    private static int sumAmount(Map<Optional<MenuItem>, Integer> menuAndAmountMap) {
         return menuAndAmountMap.values()
                 .stream()
                 .mapToInt(Integer::intValue)
@@ -82,7 +84,7 @@ public class Parser {
     }
 
     private static boolean isCertainFood(String menu) {
-        return MenuSearch.findMenuItem(menu)
+        return findMenuItem(menu)
                 .map(menuItem -> Arrays.asList(MenuType.values()).contains(menuItem.type()))
                 .orElse(false);
     }
@@ -91,7 +93,7 @@ public class Parser {
         String[] menuAndAmount = input.split(MENU_TYPE_DELIMITER);
         boolean allMatch = Arrays.stream(menuAndAmount)
                 .map(entry -> entry.split(MENU_AMOUNT_DELIMITER)[MENU_INDEX])
-                .allMatch(menu -> MenuSearch.findMenuItem(menu)
+                .allMatch(menu -> findMenuItem(menu)
                         .map(menuItem -> menuItem.type() == MenuType.BEVERAGE)
                         .orElse(false)
                 );
@@ -110,7 +112,7 @@ public class Parser {
         }
     }
 
-    private static void processMenuEntry(String entry, Map<String, Integer> menuAndAmountMap) {
+    private static void processMenuEntry(String entry, Map<Optional<MenuItem>, Integer> menuAndAmountMap) {
         String[] parts = entry.split(MENU_AMOUNT_DELIMITER);
         Integer amount = 0;
         try {
@@ -121,7 +123,9 @@ public class Parser {
         if (parts.length == SEPARATE_TWO) {
             int eachAmount = Integer.parseInt(parts[AMOUNT_INDEX].trim());
             validateAmount(eachAmount);
-            menuAndAmountMap.put(parts[MENU_INDEX].trim(), amount);
+            String menu = parts[MENU_INDEX].trim();
+            Optional<MenuItem> item = findMenuItem(menu);
+            menuAndAmountMap.put(item, amount);
         }
     }
 
@@ -133,7 +137,7 @@ public class Parser {
         throw PlannerException.from(AMOUNT_OUT_OF_RANGE);
     }
 
-    private static void validateEmpty(Map<String, Integer> menuAndAmountMap) {
+    private static void validateEmpty(Map<Optional<MenuItem>, Integer> menuAndAmountMap) {
         if (menuAndAmountMap.isEmpty()) {
             throw PlannerException.from(REQUEST_INVALID_MENU);
         }

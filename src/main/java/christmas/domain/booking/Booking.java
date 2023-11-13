@@ -1,37 +1,39 @@
 package christmas.domain.booking;
 
-import static christmas.exception.ErrorMessage.REQUEST_INVALID_MENU;
-
-import christmas.exception.PlannerException;
+import christmas.domain.booking.dto.BookMessage;
+import christmas.domain.booking.dto.MenuItem;
 import java.util.Map;
+import java.util.Optional;
 
 public class Booking {
 
     private final int reservationDay;
-    private final Map<String, Integer> menuAndAmountMap;
+    private final Map<MenuItem, Integer> menuAndAmountMap;
 
-    public Booking(int reservationDay, Map<String, Integer> menuAndAmountMap) {
-
-        try {
-            validationMenu(menuAndAmountMap);
-        } catch (IllegalArgumentException exception) {
-            PlannerException.of(REQUEST_INVALID_MENU, exception);
-        }
-
+    public Booking(int reservationDay, Map<MenuItem, Integer> menuAndAmountMap) {
         this.reservationDay = reservationDay;
         this.menuAndAmountMap = menuAndAmountMap;
 
     }
 
-    public static Booking from(int reservationDay, Map<String, Integer> menuAndAmountMap) {
+    public static Booking from(int reservationDay, Map<MenuItem, Integer> menuAndAmountMap) {
         return new Booking(reservationDay, menuAndAmountMap);
     }
 
-    private void validationMenu(Map<String, Integer> menuAndAmountMap) {
-        isExistMenu(menuAndAmountMap);
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "reservationDay=" + reservationDay +
+                ", menuAndAmountMap=" + menuAndAmountMap.toString() +
+                '}';
     }
 
-    private void isExistMenu(Map<String, Integer> menuAndAmountMap) {
+
+
+    public BookMessage getMessages() {
+        return new BookMessage(reservationDay, menuAndAmountMap);
+    }
+    private void validationMenu(Map<Optional<MenuItem>, Integer> menuAndAmountMap) {
 
     }
 }

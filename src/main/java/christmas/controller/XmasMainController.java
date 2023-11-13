@@ -1,11 +1,13 @@
 package christmas.controller;
 
 import christmas.domain.booking.Booking;
+import christmas.domain.booking.dto.BookMessage;
+import christmas.view.output.BookingWriterView;
 
 public class XmasMainController {
     public static void start() {
         ReservationController reservationController = new ReservationController();
-        Booking booking = reservationController.getBooking();
-
+        BookMessage bookMessage = reservationController.getMessages();
+        BookingWriterView.MenuOrder(bookMessage);
     }
 }

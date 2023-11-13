@@ -1,6 +1,7 @@
 package christmas.controller;
 
 import christmas.domain.booking.Booking;
+import christmas.domain.booking.dto.BookMessage;
 import christmas.domain.booking.dto.MenuItem;
 import christmas.view.output.OutputView;
 import java.util.Map;
@@ -28,6 +29,10 @@ public class ReservationController {
 
     public Booking getBooking() {
         return Booking.from(reservation, processedMenuAndAmountMap);
+    }
+
+    public BookMessage getMessages() {
+        return new BookMessage(reservation, processedMenuAndAmountMap);
     }
 
 }

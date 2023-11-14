@@ -1,9 +1,7 @@
 package christmas.domain.booking;
 
-import christmas.domain.booking.dto.BookMessage;
 import christmas.domain.booking.dto.MenuItem;
 import java.util.Map;
-import java.util.Optional;
 
 public class Booking {
 
@@ -13,11 +11,18 @@ public class Booking {
     public Booking(int reservationDay, Map<MenuItem, Integer> menuAndAmountMap) {
         this.reservationDay = reservationDay;
         this.menuAndAmountMap = menuAndAmountMap;
-
     }
 
     public static Booking from(int reservationDay, Map<MenuItem, Integer> menuAndAmountMap) {
         return new Booking(reservationDay, menuAndAmountMap);
+    }
+
+    public static int getTotalAmount(Map<MenuItem, Integer> processedMenuAndAmountMap) {
+        int totalAmount = 0;
+        for (MenuItem menuItem : processedMenuAndAmountMap.keySet()) {
+            totalAmount += menuItem.price() * processedMenuAndAmountMap.get(menuItem);
+        }
+        return totalAmount;
     }
 
     @Override
@@ -26,14 +31,5 @@ public class Booking {
                 "reservationDay=" + reservationDay +
                 ", menuAndAmountMap=" + menuAndAmountMap.toString() +
                 '}';
-    }
-
-
-
-    public BookMessage getMessages() {
-        return new BookMessage(reservationDay, menuAndAmountMap);
-    }
-    private void validationMenu(Map<Optional<MenuItem>, Integer> menuAndAmountMap) {
-
     }
 }

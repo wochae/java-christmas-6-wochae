@@ -1,7 +1,8 @@
 package christmas.service;
 
-import static christmas.domain.payment.Constants.BONUS_PRICE;
-import static christmas.domain.payment.Constants.SPECIAL_DAY;
+import static christmas.domain.payment.constants.Constants.AMOUNT_ZERO;
+import static christmas.domain.payment.constants.Constants.BONUS_DISCOUNT;
+import static christmas.domain.payment.constants.Constants.BONUS_PRICE;
 
 import christmas.domain.booking.Booking;
 import christmas.domain.booking.dto.MenuItem;
@@ -36,8 +37,8 @@ public class Payment {
 
     public int getBigCustomerGift() {
         if (getRawTotal(menuAndAmountMap) >= BONUS_PRICE)
-            return BONUS_PRICE;
-        return 0;
+            return BONUS_DISCOUNT;
+        return AMOUNT_ZERO;
     }
 
     public int getStarDayDiscount() {
@@ -53,5 +54,26 @@ public class Payment {
             return DiscountCalculator.applyWeekdayDiscount(menuAndAmountMap);
         }
         return DiscountCalculator.applyWeekendDiscount(menuAndAmountMap);
+    }
+
+    public int getAllDiscount() {
+        int bigCustomerGift = getBigCustomerGift();
+        int starDayDiscount = getStarDayDiscount();
+        int specialDayDiscount = getSpecialDayDiscount();
+        int discountMenuOnDayType = getDiscountMenuOnDayType();
+
+        int totalDiscount = bigCustomerGift + starDayDiscount + specialDayDiscount + discountMenuOnDayType;
+        return totalDiscount;
+    }
+    public int getFinPrice() {
+
+        int totalAmount = getRawTotal(menuAndAmountMap);
+        int starDayDiscount = getStarDayDiscount();
+        int specialDayDiscount = getSpecialDayDiscount();
+        int discountMenuOnDayType = getDiscountMenuOnDayType();
+
+        int totalDiscount = starDayDiscount + specialDayDiscount + discountMenuOnDayType;
+        int finalAmount = totalAmount - totalDiscount;
+        return finalAmount;
     }
 }

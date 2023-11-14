@@ -1,24 +1,22 @@
 package christmas.domain.payment;
 
-import static christmas.domain.payment.Constants.AMOUNT_ZERO;
-import static christmas.domain.payment.Constants.BASE_DISCOUNT_AMOUNT;
-import static christmas.domain.payment.Constants.BONUS_NO;
-import static christmas.domain.payment.Constants.BONUS_PRICE;
-import static christmas.domain.payment.Constants.BONUS_YES;
-import static christmas.domain.payment.Constants.DAILY_DISCOUNT_INCREASE;
-import static christmas.domain.payment.Constants.FIRST_DAY;
-import static christmas.domain.payment.Constants.SPECIAL_DAY;
-import static christmas.domain.payment.Constants.WEEKDAY_DESSERT_DISCOUNT;
-import static christmas.domain.payment.Constants.WEEKEND_MAIN_DISCOUNT;
+import static christmas.domain.payment.constants.Constants.AMOUNT_ZERO;
+import static christmas.domain.payment.constants.Constants.BASE_DISCOUNT_AMOUNT;
+import static christmas.domain.payment.constants.Constants.DAILY_DISCOUNT_INCREASE;
+import static christmas.domain.payment.constants.Constants.FIRST_DAY;
+import static christmas.domain.payment.constants.Constants.SPECIAL_DAY;
+import static christmas.domain.payment.constants.Constants.WEEKDAY_DESSERT_DISCOUNT;
+import static christmas.domain.payment.constants.Constants.WEEKEND_MAIN_DISCOUNT;
 
 import christmas.domain.booking.dto.MenuItem;
 import christmas.domain.booking.dto.MenuType;
 import christmas.domain.payment.discount.DayType;
+import christmas.service.Payment;
 import java.util.Map;
 
 public class DiscountCalculator {
     public static int applyWeekdayDiscount(Map<MenuItem, Integer> menuAndAmountMap) {
-        int weekdayDiscount = 0;
+        int weekdayDiscount = AMOUNT_ZERO;
 
         for (Map.Entry<MenuItem, Integer> entry : menuAndAmountMap.entrySet()) {
             MenuItem menuItem = entry.getKey();
@@ -33,7 +31,7 @@ public class DiscountCalculator {
     }
 
     public static int applyWeekendDiscount(Map<MenuItem, Integer> menuAndAmountMap) {
-        int weekendDiscount = 0;
+        int weekendDiscount = AMOUNT_ZERO;
 
         for (Map.Entry<MenuItem, Integer> entry : menuAndAmountMap.entrySet()) {
             MenuItem menuItem = entry.getKey();
@@ -46,7 +44,7 @@ public class DiscountCalculator {
 
 
     public static int applySpecialDiscount(int reservationDay) {
-        int discount = 0;
+        int discount = AMOUNT_ZERO;
         if (isSpecialDiscountDay(reservationDay)) {
             discount = DAILY_DISCOUNT_INCREASE * (reservationDay - FIRST_DAY);
             return discount + BASE_DISCOUNT_AMOUNT;
@@ -72,12 +70,12 @@ public class DiscountCalculator {
         return reservationDay == SPECIAL_DAY;
     }
 
-
-
-    private static int applyGiftAmount(int totalAmount) {
-        if (totalAmount >= BONUS_PRICE) {
-            return BONUS_YES;
-        }
-        return BONUS_NO;
+    public static PaymentMessage generatePaymentMessage(int day, Map<MenuItem, Integer> menus) {
+        Payment payment = new Payment(day, menus);
+        return new PaymentMessage(
+                day,
+                menus,
+                payment
+        );
     }
 }

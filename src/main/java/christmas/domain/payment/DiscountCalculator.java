@@ -1,10 +1,19 @@
 package christmas.domain.payment;
 
+import static christmas.domain.payment.Constants.AMOUNT_ZERO;
+import static christmas.domain.payment.Constants.BASE_DISCOUNT_AMOUNT;
+import static christmas.domain.payment.Constants.BONUS_NO;
+import static christmas.domain.payment.Constants.BONUS_PRICE;
+import static christmas.domain.payment.Constants.BONUS_YES;
+import static christmas.domain.payment.Constants.DAILY_DISCOUNT_INCREASE;
+import static christmas.domain.payment.Constants.FIRST_DAY;
+import static christmas.domain.payment.Constants.SPECIAL_DAY;
 import static christmas.domain.payment.Constants.WEEKDAY_DESSERT_DISCOUNT;
 import static christmas.domain.payment.Constants.WEEKEND_MAIN_DISCOUNT;
 
 import christmas.domain.booking.dto.MenuItem;
 import christmas.domain.booking.dto.MenuType;
+import christmas.domain.payment.discount.DayType;
 import java.util.Map;
 
 public class DiscountCalculator {
@@ -47,5 +56,28 @@ public class DiscountCalculator {
 
     private static boolean isSpecialDiscountDay(int day) {
         return FIRST_DAY <= day && day <= SPECIAL_DAY;
+    }
+
+    public static int applyStarDayDiscount(int reservationDay) {
+        if (isStarDay(reservationDay)) {
+            return BASE_DISCOUNT_AMOUNT;
+        }
+        return AMOUNT_ZERO;
+    }
+
+    private static boolean isStarDay(int reservationDay) {
+        if (DayType.isSunday(reservationDay)) {
+            return true;
+        }
+        return reservationDay == SPECIAL_DAY;
+    }
+
+
+
+    private static int applyGiftAmount(int totalAmount) {
+        if (totalAmount >= BONUS_PRICE) {
+            return BONUS_YES;
+        }
+        return BONUS_NO;
     }
 }

@@ -36,13 +36,23 @@ class PaymentTest {
     @Test
     void getDayType() {
         // given
-        int reservationDay = 26;
-        Payment payment = new Payment(reservationDay, null);
+        int reservationDay1 = 22;
+        int reservationDay2 = 23;
+        int reservationDay3 = 24;
+        Payment payment1 = new Payment(reservationDay1, null);
+        Payment payment2 = new Payment(reservationDay2, null);
+        Payment payment3 = new Payment(reservationDay3, null);
         // when
-        DayType expected = DayType.WEEKDAY;
-        DayType actual = payment.getDayType(reservationDay);
+        DayType expected1 = DayType.WEEKEND;
+        DayType expected2 = DayType.WEEKEND;
+        DayType expected3 = DayType.WEEKDAY;
+        DayType actual1 = payment1.getDayType(reservationDay1);
+        DayType actual2 = payment2.getDayType(reservationDay2);
+        DayType actual3 = payment3.getDayType(reservationDay3);
         // then
-        assertEquals(expected, actual);
+        assertEquals(expected1, actual1);
+        assertEquals(expected2, actual2);
+        assertEquals(expected3, actual3);
     }
 
     @Test
@@ -81,5 +91,29 @@ class PaymentTest {
         // then
         assertEquals(expectedTotal1, actualTotal1);
         assertEquals(expectedTotal2, actualTotal2);
+    }
+
+    @Test
+    void getStarDay() {
+        // given
+        int reservationDay1 = 1;
+        int reservationDay2 = 24;
+        int reservationDay3 = 25;
+        Map<MenuItem, Integer> menuAndAmountMap = new HashMap<>();
+        menuAndAmountMap = Parser.splitMenuAndAmount("티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1");
+        Payment payment1 = new Payment(reservationDay1, menuAndAmountMap);
+        Payment payment2 = new Payment(reservationDay2, menuAndAmountMap);
+        Payment payment3 = new Payment(reservationDay3, menuAndAmountMap);
+        // when
+        int expectedTotal1 = 0;
+        int expectedTotal2 = 1000;
+        int expectedTotal3 = 1000;
+        int actualTotal1 = payment1.getStarDayDiscount();
+        int actualTotal2 = payment2.getStarDayDiscount();
+        int actualTotal3 = payment3.getStarDayDiscount();
+        // then
+        assertEquals(expectedTotal1, actualTotal1);
+        assertEquals(expectedTotal2, actualTotal2);
+        assertEquals(expectedTotal3, actualTotal3);
     }
 }

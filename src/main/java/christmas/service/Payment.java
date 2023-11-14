@@ -1,5 +1,7 @@
 package christmas.service;
 
+import static christmas.domain.payment.Constants.SPECIAL_DAY;
+
 import christmas.domain.booking.Booking;
 import christmas.domain.booking.dto.MenuItem;
 import christmas.domain.payment.DiscountCalculator;
@@ -29,6 +31,10 @@ public class Payment {
             return DayType.WEEKEND;
         }
         return dayType;
+    }
+
+    public int getStarDayDiscount() {
+        return DiscountCalculator.applyStarDayDiscount(reservationDay);
     }
 
     public int getSpecialDayDiscount() {

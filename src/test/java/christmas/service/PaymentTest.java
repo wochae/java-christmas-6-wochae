@@ -1,8 +1,8 @@
 package christmas.service;
 
 import static christmas.domain.payment.constants.Constants.AMOUNT_ZERO;
-import static christmas.domain.payment.constants.Constants.BONUS_PRICE;
-import static org.junit.jupiter.api.Assertions.*;
+import static christmas.domain.payment.constants.Constants.BONUS_DISCOUNT;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import christmas.domain.booking.dto.MenuItem;
 import christmas.domain.booking.dto.MenuType;
@@ -46,7 +46,7 @@ class PaymentTest {
         menuAndAmountMap2 = Parser.splitMenuAndAmount("초코케이크-2,제로콜라-1");
         Payment payment2 = new Payment(reservationDay2, menuAndAmountMap2);
         // when
-        int expectedTotal1 = BONUS_PRICE;
+        int expectedTotal1 = BONUS_DISCOUNT;
         int expectedTotal2 = AMOUNT_ZERO;
         int actualTotal1 = payment1.getBigCustomerGift();
         int actualTotal2 = payment2.getBigCustomerGift();

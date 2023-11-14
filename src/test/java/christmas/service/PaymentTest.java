@@ -1,7 +1,7 @@
 package christmas.service;
 
-import static christmas.domain.payment.Constants.AMOUNT_ZERO;
-import static christmas.domain.payment.Constants.BONUS_PRICE;
+import static christmas.domain.payment.constants.Constants.AMOUNT_ZERO;
+import static christmas.domain.payment.constants.Constants.BONUS_PRICE;
 import static org.junit.jupiter.api.Assertions.*;
 
 import christmas.domain.booking.dto.MenuItem;

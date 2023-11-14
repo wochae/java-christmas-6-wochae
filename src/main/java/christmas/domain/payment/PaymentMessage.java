@@ -47,7 +47,14 @@ public record PaymentMessage(
         message.append(messageFactory(PRICE_MINUS_FORMAT, payment.getAllDiscount()));
         message.append(EXPECTED_PRICE.getMessage());
         message.append(messageFactory(PRICE_FORMAT, payment.getFinPrice()));
-        message.append(BADGE.getMessage() + SANTA.getMessage());
+        badge();
+        return message.toString();
+    }
+
+    private String badge() {
+        StringBuilder message = new StringBuilder();
+        message.append(BADGE.getMessage());
+        message.append(payment.getBadge());
         return message.toString();
     }
 

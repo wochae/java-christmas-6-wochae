@@ -1,8 +1,13 @@
 package christmas.service;
 
 import static christmas.domain.payment.constants.Constants.AMOUNT_ZERO;
+import static christmas.domain.payment.constants.Constants.BADGE_MINIMUM_PRICE;
 import static christmas.domain.payment.constants.Constants.BONUS_DISCOUNT;
 import static christmas.domain.payment.constants.Constants.BONUS_PRICE;
+import static christmas.domain.payment.constants.PayMessage.NONE;
+import static christmas.domain.payment.constants.PayMessage.SANTA;
+import static christmas.domain.payment.constants.PayMessage.STAR;
+import static christmas.domain.payment.constants.PayMessage.TREE;
 
 import christmas.domain.booking.Booking;
 import christmas.domain.booking.dto.MenuItem;
@@ -36,8 +41,9 @@ public class Payment {
     }
 
     public int getBigCustomerGift() {
-        if (getRawTotal(menuAndAmountMap) >= BONUS_PRICE)
+        if (getRawTotal(menuAndAmountMap) >= BONUS_PRICE) {
             return BONUS_DISCOUNT;
+        }
         return AMOUNT_ZERO;
     }
 
@@ -65,6 +71,23 @@ public class Payment {
         int totalDiscount = bigCustomerGift + starDayDiscount + specialDayDiscount + discountMenuOnDayType;
         return totalDiscount;
     }
+
+    public String getBadge() {
+        int price = BADGE_MINIMUM_PRICE;
+        if (getFinPrice() < price) {
+            return NONE.getMessage();
+        }
+        price += price;
+        if (getFinPrice() < price) {
+            return STAR.getMessage();
+        }
+        price += price;
+        if (getFinPrice() < price) {
+            return TREE.getMessage();
+        }
+        return SANTA.getMessage();
+    }
+
     public int getFinPrice() {
 
         int totalAmount = getRawTotal(menuAndAmountMap);

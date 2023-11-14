@@ -29,6 +29,10 @@ public enum PayMessage {
     PRICE_MINUS_FORMAT("-%,d원\n"),
     PRICE_FORMAT("%,d원\n"),
     BADGE("\n<12월 이벤트 배지>\n"),
+
+
+    STAR("별"),
+    TREE("트리"),
     SANTA("산타");
     private final String message;
     PayMessage(String message) {

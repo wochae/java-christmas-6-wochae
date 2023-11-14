@@ -9,14 +9,13 @@ import java.util.Map;
 public class ReservationController {
 
     private final int reservation;
-    private Map<String, Integer> menuAndAmountMap;
     private Map<MenuItem, Integer> processedMenuAndAmountMap;
 
     public ReservationController() {
         this.reservation = BookingController.requestBooking();
         getMenuWithRetry();
-    }
 
+    }
     private void getMenuWithRetry() {
         try {
             processedMenuAndAmountMap = MenuController.requestMenu();
@@ -26,7 +25,6 @@ public class ReservationController {
             getMenuWithRetry();
         }
     }
-
     public Booking getBooking() {
         return Booking.from(reservation, processedMenuAndAmountMap);
     }

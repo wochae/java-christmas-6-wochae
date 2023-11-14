@@ -2,8 +2,9 @@ package christmas.domain.payment.constants;
 
 public class Constants {
 
-    public static final int BONUS_PRICE = 120_000;
+    public static final int BASE_EVENT_PRICE = 10_000;
     public static final int BONUS_DISCOUNT = 25_000;
+    public static final int BONUS_PRICE = 120_000;
     public static final int AMOUNT_ZERO = 0;
     public static final int FIRST_DAY = 1;
     public static final int SPECIAL_DAY = 25;

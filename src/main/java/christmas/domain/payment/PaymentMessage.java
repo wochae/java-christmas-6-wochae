@@ -1,6 +1,7 @@
 package christmas.domain.payment;
 
 import static christmas.domain.payment.constants.Constants.AMOUNT_ZERO;
+import static christmas.domain.payment.constants.Constants.BASE_EVENT_PRICE;
 import static christmas.domain.payment.constants.Constants.BONUS_DISCOUNT;
 import static christmas.domain.payment.constants.Constants.BONUS_PRICE;
 import static christmas.domain.payment.constants.PayMessage.AMOUNT_BENEFIT_PRICE;
@@ -34,9 +35,7 @@ public record PaymentMessage(
     @Override
     public String toString() {
         StringBuilder message = new StringBuilder();
-        if (payment.getRawTotal(menuAndAmountMap) < BONUS_PRICE &&
-                payment.getDayType(reservationDay) == DayType.WEEKDAY &&
-                payment.getSpecialDayDiscount() == AMOUNT_ZERO) {
+        if (lowCustomer() || isEventCustomer()) {
             return lowPrice().toString();
         }
         message.append((GIFT_EVENT.getMessage()));
@@ -51,6 +50,14 @@ public record PaymentMessage(
         return message.toString();
     }
 
+    private boolean isEventCustomer() {
+        return payment.getRawTotal(menuAndAmountMap) < BASE_EVENT_PRICE;
+    }
+    private boolean lowCustomer() {
+        return payment.getRawTotal(menuAndAmountMap) < BONUS_PRICE &&
+                payment.getDayType(reservationDay) == DayType.WEEKDAY &&
+                payment.getSpecialDayDiscount() == AMOUNT_ZERO;
+    }
     private String badge() {
         StringBuilder message = new StringBuilder();
         message.append(BADGE.getMessage());

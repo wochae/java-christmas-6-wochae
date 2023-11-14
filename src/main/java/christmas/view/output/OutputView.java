@@ -7,12 +7,7 @@ public class OutputView {
         System.out.println(data);
     }
 
-    public static void println() {
-        System.out.println();
-    }
-
     public static void print(final Message message) {
         println(message.getMessage());
     }
 }
-

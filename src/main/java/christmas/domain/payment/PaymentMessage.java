@@ -46,7 +46,7 @@ public record PaymentMessage(
         message.append(messageFactory(PRICE_MINUS_FORMAT, payment.getAllDiscount()));
         message.append(EXPECTED_PRICE.getMessage());
         message.append(messageFactory(PRICE_FORMAT, payment.getFinPrice()));
-        badge();
+        message.append(badge());
         return message.toString();
     }
 

@@ -43,6 +43,19 @@ class PaymentTest {
         DayType actual = payment.getDayType(reservationDay);
         // then
         assertEquals(expected, actual);
+    }
 
+    @Test
+    void getDiscountMenuOnDayType() {
+        // given
+        int reservationDay = 26;
+        Map<MenuItem, Integer> menuAndAmountMap = new HashMap<>();
+        menuAndAmountMap = Parser.splitMenuAndAmount("티본스테이크-1,바비큐립-1,초코케이크-2");
+        Payment payment = new Payment(reservationDay, menuAndAmountMap);
+        // when
+        int expectedTotal = 4_046;
+        int actualTotal = payment.getDiscountMenuOnDayType();
+        // then
+        assertEquals(expectedTotal, actualTotal);
     }
 }

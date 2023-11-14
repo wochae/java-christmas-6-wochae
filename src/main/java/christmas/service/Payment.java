@@ -2,6 +2,7 @@ package christmas.service;
 
 import christmas.domain.booking.Booking;
 import christmas.domain.booking.dto.MenuItem;
+import christmas.domain.payment.DiscountCalculator;
 import christmas.domain.payment.discount.DayType;
 import java.util.Map;
 
@@ -28,5 +29,12 @@ public class Payment {
             return DayType.WEEKEND;
         }
         return dayType;
+    }
+
+    public int getDiscountMenuOnDayType() {
+        if (this.dayType == DayType.WEEKDAY) {
+            return DiscountCalculator.applyWeekdayDiscount(menuAndAmountMap);
+        }
+        return DiscountCalculator.applyWeekendDiscount(menuAndAmountMap);
     }
 }

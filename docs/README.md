@@ -4,7 +4,7 @@
 
 ## &nbsp;&nbsp;구조
 
-- Model (Parser, Booking, MenuSearch)
+- Model (Parser, Booking, MenuSearch, Payment, PaymentMessage)
 - View (inputView, outputView)
 - Controller (X-masController, ReservationController, BookingController, MenuController)
 - DTO(MenuItem, MenuType)

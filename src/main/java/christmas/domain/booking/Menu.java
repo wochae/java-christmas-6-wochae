@@ -33,6 +33,7 @@ public class Menu {
             DESSERT_1, DESSERT_2,
             BEVERAGE_1, BEVERAGE_2, BEVERAGE_3
     );
+    public static final MenuItem BONUS_ITEM = BEVERAGE_3;
     private MenuType menuType;
     private int quantity;
 

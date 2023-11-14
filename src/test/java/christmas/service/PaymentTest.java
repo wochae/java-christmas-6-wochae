@@ -1,5 +1,7 @@
 package christmas.service;
 
+import static christmas.domain.payment.Constants.AMOUNT_ZERO;
+import static christmas.domain.payment.Constants.BONUS_PRICE;
 import static org.junit.jupiter.api.Assertions.*;
 
 import christmas.domain.booking.dto.MenuItem;
@@ -32,6 +34,26 @@ class PaymentTest {
         assertEquals(expectedTotal, actualTotal);
     }
 
+    @Test
+    void getBigCustomerGift() {
+        // given
+        int reservationDay1 = 26;
+        Map<MenuItem, Integer> menuAndAmountMap1 = new HashMap<>();
+        menuAndAmountMap1 = Parser.splitMenuAndAmount("티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1");
+        Payment payment1 = new Payment(reservationDay1, menuAndAmountMap1);
+        int reservationDay2 = 26;
+        Map<MenuItem, Integer> menuAndAmountMap2 = new HashMap<>();
+        menuAndAmountMap2 = Parser.splitMenuAndAmount("초코케이크-2,제로콜라-1");
+        Payment payment2 = new Payment(reservationDay2, menuAndAmountMap2);
+        // when
+        int expectedTotal1 = BONUS_PRICE;
+        int expectedTotal2 = AMOUNT_ZERO;
+        int actualTotal1 = payment1.getBigCustomerGift();
+        int actualTotal2 = payment2.getBigCustomerGift();
+        // then
+        assertEquals(expectedTotal1, actualTotal1);
+        assertEquals(expectedTotal2, actualTotal2);
+    }
 
     @Test
     void getDayType() {

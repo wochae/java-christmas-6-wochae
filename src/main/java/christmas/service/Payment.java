@@ -1,5 +1,6 @@
 package christmas.service;
 
+import static christmas.domain.payment.Constants.BONUS_PRICE;
 import static christmas.domain.payment.Constants.SPECIAL_DAY;
 
 import christmas.domain.booking.Booking;
@@ -31,6 +32,12 @@ public class Payment {
             return DayType.WEEKEND;
         }
         return dayType;
+    }
+
+    public int getBigCustomerGift() {
+        if (getRawTotal(menuAndAmountMap) >= BONUS_PRICE)
+            return BONUS_PRICE;
+        return 0;
     }
 
     public int getStarDayDiscount() {

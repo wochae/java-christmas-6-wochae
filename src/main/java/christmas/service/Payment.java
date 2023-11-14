@@ -31,6 +31,10 @@ public class Payment {
         return dayType;
     }
 
+    public int getSpecialDayDiscount() {
+        return DiscountCalculator.applySpecialDiscount(reservationDay);
+    }
+
     public int getDiscountMenuOnDayType() {
         if (this.dayType == DayType.WEEKDAY) {
             return DiscountCalculator.applyWeekdayDiscount(menuAndAmountMap);

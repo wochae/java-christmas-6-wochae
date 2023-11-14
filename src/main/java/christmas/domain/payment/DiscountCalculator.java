@@ -34,4 +34,18 @@ public class DiscountCalculator {
         }
         return weekendDiscount;
     }
+
+
+    public static int applySpecialDiscount(int reservationDay) {
+        int discount = 0;
+        if (isSpecialDiscountDay(reservationDay)) {
+            discount = DAILY_DISCOUNT_INCREASE * (reservationDay - FIRST_DAY);
+            return discount + BASE_DISCOUNT_AMOUNT;
+        }
+        return discount;
+    }
+
+    private static boolean isSpecialDiscountDay(int day) {
+        return FIRST_DAY <= day && day <= SPECIAL_DAY;
+    }
 }

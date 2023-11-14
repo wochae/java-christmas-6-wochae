@@ -48,14 +48,38 @@ class PaymentTest {
     @Test
     void getDiscountMenuOnDayType() {
         // given
-        int reservationDay = 26;
+        int reservationDay1 = 26;
+        int reservationDay2 = 29;
         Map<MenuItem, Integer> menuAndAmountMap = new HashMap<>();
-        menuAndAmountMap = Parser.splitMenuAndAmount("티본스테이크-1,바비큐립-1,초코케이크-2");
-        Payment payment = new Payment(reservationDay, menuAndAmountMap);
+        menuAndAmountMap = Parser.splitMenuAndAmount("티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1");
+        Payment payment1 = new Payment(reservationDay1, menuAndAmountMap);
+        Payment payment2 = new Payment(reservationDay2, menuAndAmountMap);
         // when
-        int expectedTotal = 4_046;
-        int actualTotal = payment.getDiscountMenuOnDayType();
+        int expectedTotal1 = 4_046;
+        int expectedTotal2 = 4_046;
+        int actualTotal1 = payment1.getDiscountMenuOnDayType();
+        int actualTotal2 = payment2.getDiscountMenuOnDayType();
         // then
-        assertEquals(expectedTotal, actualTotal);
+        assertEquals(expectedTotal1, actualTotal1);
+        assertEquals(expectedTotal2, actualTotal2);
+    }
+
+    @Test
+    void getSpecialDay() {
+        // given
+        int reservationDay1 = 1;
+        int reservationDay2 = 25;
+        Map<MenuItem, Integer> menuAndAmountMap = new HashMap<>();
+        menuAndAmountMap = Parser.splitMenuAndAmount("티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1");
+        Payment payment1 = new Payment(reservationDay1, menuAndAmountMap);
+        Payment payment2 = new Payment(reservationDay2, menuAndAmountMap);
+        // when
+        int expectedTotal1 = 1000;
+        int expectedTotal2 = 3400;
+        int actualTotal1 = payment1.getSpecialDayDiscount();
+        int actualTotal2 = payment2.getSpecialDayDiscount();
+        // then
+        assertEquals(expectedTotal1, actualTotal1);
+        assertEquals(expectedTotal2, actualTotal2);
     }
 }

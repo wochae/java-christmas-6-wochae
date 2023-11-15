@@ -67,36 +67,34 @@ public class Payment {
         int starDayDiscount = getStarDayDiscount();
         int specialDayDiscount = getSpecialDayDiscount();
         int discountMenuOnDayType = getDiscountMenuOnDayType();
-
-        int totalDiscount = bigCustomerGift + starDayDiscount + specialDayDiscount + discountMenuOnDayType;
-        return totalDiscount;
+        return bigCustomerGift + starDayDiscount + specialDayDiscount + discountMenuOnDayType;
     }
 
     public String getBadge() {
         int price = BADGE_MINIMUM_PRICE;
-        if (getFinPrice() < price) {
+        if (getAllDiscount() < price) {
             return NONE.getMessage();
         }
         price += price;
-        if (getFinPrice() < price) {
+        if (getAllDiscount() < price) {
             return STAR.getMessage();
         }
         price += price;
-        if (getFinPrice() < price) {
+        if (getAllDiscount() < price) {
             return TREE.getMessage();
         }
         return SANTA.getMessage();
     }
 
-    public int getFinPrice() {
-
-        int totalAmount = getRawTotal(menuAndAmountMap);
+    public int getFinDiscount() {
         int starDayDiscount = getStarDayDiscount();
         int specialDayDiscount = getSpecialDayDiscount();
         int discountMenuOnDayType = getDiscountMenuOnDayType();
+        return starDayDiscount + specialDayDiscount + discountMenuOnDayType;
+    }
 
-        int totalDiscount = starDayDiscount + specialDayDiscount + discountMenuOnDayType;
-        int finalAmount = totalAmount - totalDiscount;
-        return finalAmount;
+    public int getFinPrice() {
+        int totalAmount = getRawTotal(menuAndAmountMap);
+        return totalAmount - getFinDiscount();
     }
 }

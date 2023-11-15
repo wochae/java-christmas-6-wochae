@@ -22,14 +22,32 @@ class DiscountCalculatorTest {
 
     @Test
     void applyWeekendDiscount() {
+        // given
+        Map<MenuItem, Integer> menuAndAmountMap = Parser.splitMenuAndAmount("티본스테이크-1,바비큐립-1,초코케이크-2");
+        // when
+        int price = DiscountCalculator.applyWeekdayDiscount(menuAndAmountMap);
+        // then
+        assertEquals(price, 4046);
     }
 
     @Test
     void applySpecialDiscount() {
+        // given
+        int reservationDay = 3;
+        // when
+        int discount = DiscountCalculator.applySpecialDiscount(reservationDay);
+        // then
+        assertEquals(discount, 1200);
     }
 
     @Test
     void applyStarDayDiscount() {
+        // given
+        int reservationDay = 3;
+        // when
+        int discount = DiscountCalculator.applyStarDayDiscount(reservationDay);
+        // then
+        assertEquals(discount, 1000);
     }
 
     @Test
@@ -46,6 +64,7 @@ class DiscountCalculatorTest {
 
         // then
         assertEquals(paymentMessage.menuAndAmountMap(), menuAndAmountMap);
-        assertEquals(paymentMessage.payment().getRawTotal(paymentMessage.menuAndAmountMap()), payment.getRawTotal(menuAndAmountMap));
+        assertEquals(paymentMessage.payment().getRawTotal(paymentMessage.menuAndAmountMap()),
+                payment.getRawTotal(menuAndAmountMap));
     }
 }

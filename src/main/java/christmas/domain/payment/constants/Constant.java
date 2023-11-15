@@ -1,6 +1,6 @@
 package christmas.domain.payment.constants;
 
-public class Constants {
+public class Constant {
 
     public static final int BASE_EVENT_PRICE = 10_000;
     public static final int BONUS_DISCOUNT = 25_000;

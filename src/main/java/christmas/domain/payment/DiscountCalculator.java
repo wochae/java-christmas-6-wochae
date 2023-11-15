@@ -1,12 +1,12 @@
 package christmas.domain.payment;
 
-import static christmas.domain.payment.constants.Constants.AMOUNT_ZERO;
-import static christmas.domain.payment.constants.Constants.BASE_DISCOUNT_AMOUNT;
-import static christmas.domain.payment.constants.Constants.DAILY_DISCOUNT_INCREASE;
-import static christmas.domain.payment.constants.Constants.FIRST_DAY;
-import static christmas.domain.payment.constants.Constants.SPECIAL_DAY;
-import static christmas.domain.payment.constants.Constants.WEEKDAY_DESSERT_DISCOUNT;
-import static christmas.domain.payment.constants.Constants.WEEKEND_MAIN_DISCOUNT;
+import static christmas.domain.payment.constants.Constant.AMOUNT_ZERO;
+import static christmas.domain.payment.constants.Constant.BASE_DISCOUNT_AMOUNT;
+import static christmas.domain.payment.constants.Constant.DAILY_DISCOUNT_INCREASE;
+import static christmas.domain.payment.constants.Constant.FIRST_DAY;
+import static christmas.domain.payment.constants.Constant.SPECIAL_DAY;
+import static christmas.domain.payment.constants.Constant.WEEKDAY_DESSERT_DISCOUNT;
+import static christmas.domain.payment.constants.Constant.WEEKEND_MAIN_DISCOUNT;
 
 import christmas.domain.booking.dto.MenuItem;
 import christmas.domain.booking.dto.MenuType;

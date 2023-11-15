@@ -1,6 +1,6 @@
 package christmas.domain.payment.discount;
 
-import static christmas.domain.payment.constants.Constants.PRESENT_YEAR;
+import static christmas.domain.payment.constants.Constant.PRESENT_YEAR;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

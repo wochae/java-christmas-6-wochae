@@ -1,15 +1,14 @@
 package christmas.domain.payment;
 
-import static christmas.domain.payment.constants.Constants.AMOUNT_ZERO;
-import static christmas.domain.payment.constants.Constants.BASE_EVENT_PRICE;
-import static christmas.domain.payment.constants.Constants.BONUS_DISCOUNT;
-import static christmas.domain.payment.constants.Constants.BONUS_PRICE;
+import static christmas.domain.payment.constants.Constant.AMOUNT_ZERO;
+import static christmas.domain.payment.constants.Constant.BASE_EVENT_PRICE;
+import static christmas.domain.payment.constants.Constant.BONUS_DISCOUNT;
+import static christmas.domain.payment.constants.Constant.BONUS_PRICE;
 import static christmas.domain.payment.constants.PayMessage.AMOUNT_BENEFIT_PRICE;
 import static christmas.domain.payment.constants.PayMessage.BADGE;
 import static christmas.domain.payment.constants.PayMessage.EXPECTED_PRICE;
 import static christmas.domain.payment.constants.PayMessage.PRICE_FORMAT;
 import static christmas.domain.payment.constants.PayMessage.PRICE_MINUS_FORMAT;
-import static christmas.domain.payment.constants.PayMessage.SANTA;
 import static christmas.domain.payment.constants.PayMessage.SPECIAL_DISCOUNT;
 import static christmas.domain.payment.constants.PayMessage.BENEFIT_RECIPE;
 import static christmas.domain.payment.constants.PayMessage.GIFT_EVENT;

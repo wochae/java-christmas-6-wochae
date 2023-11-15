@@ -1,9 +1,9 @@
 package christmas.service;
 
-import static christmas.domain.payment.constants.Constants.AMOUNT_ZERO;
-import static christmas.domain.payment.constants.Constants.BADGE_MINIMUM_PRICE;
-import static christmas.domain.payment.constants.Constants.BONUS_DISCOUNT;
-import static christmas.domain.payment.constants.Constants.BONUS_PRICE;
+import static christmas.domain.payment.constants.Constant.AMOUNT_ZERO;
+import static christmas.domain.payment.constants.Constant.BADGE_MINIMUM_PRICE;
+import static christmas.domain.payment.constants.Constant.BONUS_DISCOUNT;
+import static christmas.domain.payment.constants.Constant.BONUS_PRICE;
 import static christmas.domain.payment.constants.PayMessage.NONE;
 import static christmas.domain.payment.constants.PayMessage.SANTA;
 import static christmas.domain.payment.constants.PayMessage.STAR;

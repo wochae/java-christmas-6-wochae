@@ -3,19 +3,19 @@ package christmas.domain.payment;
 import static christmas.domain.payment.constants.Constant.AMOUNT_ZERO;
 import static christmas.domain.payment.constants.Constant.BASE_EVENT_PRICE;
 import static christmas.domain.payment.constants.Constant.BONUS_DISCOUNT;
-import static christmas.domain.payment.constants.Constant.BONUS_PRICE;
 import static christmas.domain.payment.constants.PayMessage.AMOUNT_BENEFIT_PRICE;
 import static christmas.domain.payment.constants.PayMessage.BADGE;
-import static christmas.domain.payment.constants.PayMessage.EXPECTED_PRICE;
-import static christmas.domain.payment.constants.PayMessage.PRICE_FORMAT;
-import static christmas.domain.payment.constants.PayMessage.PRICE_MINUS_FORMAT;
-import static christmas.domain.payment.constants.PayMessage.SPECIAL_DISCOUNT;
 import static christmas.domain.payment.constants.PayMessage.BENEFIT_RECIPE;
+import static christmas.domain.payment.constants.PayMessage.EXPECTED_PRICE;
 import static christmas.domain.payment.constants.PayMessage.GIFT_EVENT;
 import static christmas.domain.payment.constants.PayMessage.GIFT_EVENT_DISCOUNT;
 import static christmas.domain.payment.constants.PayMessage.LOW_PRICE;
 import static christmas.domain.payment.constants.PayMessage.NONE;
+import static christmas.domain.payment.constants.PayMessage.NOTHING;
 import static christmas.domain.payment.constants.PayMessage.ONE_BOTTLE;
+import static christmas.domain.payment.constants.PayMessage.PRICE_FORMAT;
+import static christmas.domain.payment.constants.PayMessage.PRICE_MINUS_FORMAT;
+import static christmas.domain.payment.constants.PayMessage.SPECIAL_DISCOUNT;
 import static christmas.domain.payment.constants.PayMessage.WEEKDAY_DISCOUNT;
 import static christmas.domain.payment.constants.PayMessage.WEEKEND_DISCOUNT;
 import static christmas.domain.payment.constants.PayMessage.X_MAX_DISCOUNT;
@@ -53,7 +53,7 @@ public record PaymentMessage(
         return payment.getRawTotal(menuAndAmountMap) < BASE_EVENT_PRICE;
     }
     private boolean lowCustomer() {
-        return payment.getRawTotal(menuAndAmountMap) < BONUS_PRICE &&
+        return payment.getRawTotal(menuAndAmountMap) < BASE_EVENT_PRICE &&
                 payment.getDayType(reservationDay) == DayType.WEEKDAY &&
                 payment.getSpecialDayDiscount() == AMOUNT_ZERO;
     }
@@ -66,10 +66,10 @@ public record PaymentMessage(
 
     private String benefit() {
         StringBuilder message = new StringBuilder();
-        message.append(messageFactory(X_MAX_DISCOUNT, payment.getSpecialDayDiscount()));
+        message.append(xMas());
         message.append(dayType());
-        message.append(messageFactory(SPECIAL_DISCOUNT, payment.getStarDayDiscount()));
-        message.append(messageFactory(GIFT_EVENT_DISCOUNT, payment.getBigCustomerGift()));
+        message.append(special());
+        message.append(gift());
         return message.toString();
     }
 
@@ -77,13 +77,33 @@ public record PaymentMessage(
         return String.format(message.getMessage(), price);
     }
 
+    private String gift() {
+        if (payment.getBigCustomerGift() == AMOUNT_ZERO) {
+            return NOTHING.getMessage();
+        }
+        return messageFactory(GIFT_EVENT_DISCOUNT, payment.getBigCustomerGift());
+    }
+    private String special() {
+        if (payment.getStarDayDiscount() == AMOUNT_ZERO) {
+            return NOTHING.getMessage();
+        }
+        return messageFactory(SPECIAL_DISCOUNT, payment.getStarDayDiscount());
+    }
+    private String xMas() {
+        if (payment.getSpecialDayDiscount() == AMOUNT_ZERO) {
+            return NOTHING.getMessage();
+        }
+        return messageFactory(X_MAX_DISCOUNT, payment.getSpecialDayDiscount());
+    }
     private String dayType() {
+        if (payment.getDiscountMenuOnDayType() == AMOUNT_ZERO) {
+            return NOTHING.getMessage();
+        }
         if (payment.getDayType(reservationDay) == DayType.WEEKDAY) {
             return messageFactory(WEEKDAY_DISCOUNT, payment.getDiscountMenuOnDayType());
         }
         return messageFactory(WEEKEND_DISCOUNT, payment.getDiscountMenuOnDayType());
     }
-
 
     private String grantCustomer() {
 
@@ -95,7 +115,7 @@ public record PaymentMessage(
 
     private StringBuilder lowPrice() {
         StringBuilder message = new StringBuilder();
-        message.append(messageFactory(LOW_PRICE, payment.getFinPrice()));
+        message.append(messageFactory(LOW_PRICE, payment.getLowFinPrice()));
         return message;
     }
 }

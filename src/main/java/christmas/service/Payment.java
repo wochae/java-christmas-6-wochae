@@ -97,4 +97,8 @@ public class Payment {
         int totalAmount = getRawTotal(menuAndAmountMap);
         return totalAmount - getFinDiscount();
     }
+
+    public int getLowFinPrice() {
+        return getRawTotal(menuAndAmountMap);
+    }
 }

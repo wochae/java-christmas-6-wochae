@@ -18,6 +18,8 @@ public enum PayMessage {
     GIFT_EVENT("\n<증정 메뉴>\n"),
     ONE_BOTTLE("샴페인 1개\n"),
     NONE("없음\n"),
+
+    NOTHING(""),
     BENEFIT_RECIPE("\n<혜택 내역>\n"),
     X_MAX_DISCOUNT("크리스마스 디데이 할인: -%,d원\n"),
     WEEKDAY_DISCOUNT("평일 할인: -%,d원\n"),
@@ -29,7 +31,6 @@ public enum PayMessage {
     PRICE_MINUS_FORMAT("-%,d원\n"),
     PRICE_FORMAT("%,d원\n"),
     BADGE("\n<12월 이벤트 배지>\n"),
-
 
     STAR("별"),
     TREE("트리"),

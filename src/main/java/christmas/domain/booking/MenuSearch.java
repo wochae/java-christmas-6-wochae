@@ -7,10 +7,9 @@ import java.util.Optional;
 public class MenuSearch {
     public static Optional<MenuItem> findMenuItem(String userInput) {
         List<MenuItem> menuItems = Menu.MENU_ITEMS;
-        Optional<MenuItem> foundMenuItem = menuItems.stream()
+        return menuItems.stream()
                 .filter(menuItem -> isMenuMatch(userInput, menuItem))
                 .findFirst();
-        return foundMenuItem;
     }
 
     private static boolean isMenuMatch(String userInput, MenuItem menuItem) {

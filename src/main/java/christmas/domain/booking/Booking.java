@@ -1,6 +1,6 @@
 package christmas.domain.booking;
 
-import static christmas.domain.payment.constants.Constants.AMOUNT_ZERO;
+import static christmas.domain.payment.constants.Constant.AMOUNT_ZERO;
 
 import christmas.domain.booking.dto.MenuItem;
 import java.util.Map;

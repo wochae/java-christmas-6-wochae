@@ -5,7 +5,6 @@ import christmas.domain.booking.dto.MenuType;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class Menu {
     // APPETIZER
     public static final MenuItem APPETIZER_1 = new MenuItem(MenuType.APPETIZER, "양송이수프", 6_000);
@@ -33,24 +32,4 @@ public class Menu {
             DESSERT_1, DESSERT_2,
             BEVERAGE_1, BEVERAGE_2, BEVERAGE_3
     );
-    public static final MenuItem BONUS_ITEM = BEVERAGE_3;
-    private MenuType menuType;
-    private int quantity;
-
-    public Menu(MenuType menuType, int quantity) {
-        this.menuType = menuType;
-        this.quantity = quantity;
-    }
-
-    public MenuType getMenuType() {
-        return menuType;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void display() {
-        System.out.println(menuType + " " + quantity + "개");
-    }
 }

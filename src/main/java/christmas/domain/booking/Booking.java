@@ -7,12 +7,7 @@ import java.util.Map;
 
 public class Booking {
 
-    private final int reservationDay;
-    private final Map<MenuItem, Integer> menuAndAmountMap;
-
     public Booking(int reservationDay, Map<MenuItem, Integer> menuAndAmountMap) {
-        this.reservationDay = reservationDay;
-        this.menuAndAmountMap = menuAndAmountMap;
     }
 
     public static Booking from(int reservationDay, Map<MenuItem, Integer> menuAndAmountMap) {
@@ -25,13 +20,5 @@ public class Booking {
             totalAmount += menuItem.price() * processedMenuAndAmountMap.get(menuItem);
         }
         return totalAmount;
-    }
-
-    @Override
-    public String toString() {
-        return "Booking{" +
-                "reservationDay=" + reservationDay +
-                ", menuAndAmountMap=" + menuAndAmountMap.toString() +
-                '}';
     }
 }

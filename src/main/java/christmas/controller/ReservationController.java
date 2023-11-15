@@ -19,7 +19,6 @@ public class ReservationController {
     private void getMenuWithRetry() {
         try {
             processedMenuAndAmountMap = MenuController.requestMenu();
-            Booking.from(reservation, processedMenuAndAmountMap);
         } catch (IllegalArgumentException exception) {
             OutputView.println(exception.getMessage());
             getMenuWithRetry();
